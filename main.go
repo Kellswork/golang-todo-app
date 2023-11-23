@@ -26,7 +26,7 @@ var client *mongo.Client
 var db *mongo.Database
 
 const (
-	dbName         string = " todo-example"
+	dbName         string = "golang-todo"
 	collectionName string = "todo"
 )
 
