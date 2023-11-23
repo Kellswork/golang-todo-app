@@ -20,9 +20,13 @@ If you are new to programming or a Dev who desires to learn Golang, this is a wa
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 Install Golang
+
 Clone the repository https://github.com/Kellswork/golang-todo-app
+
 Navigate to the location of the folder
+
 Run go get
+
 Run `go run main.go`  to get the app server running on your local machine
 
 
