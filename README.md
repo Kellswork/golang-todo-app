@@ -4,6 +4,9 @@ This branch is for the code used in the article "Golang Todo App: HTML Templates
 
 This branch is a follow-up to the ["SETUP HTML TEMPLATES AND ASSETS FIle"](https://github.com/Kellswork/golang-todo-app/tree/feat/setup-html-template-and-asset-files) and handles the TypeScript configuration and setup. The article provides a step-by-step guide to help you set up TypeScript for the todo app.
 
+Previously, we built the [ Golang Todo App Backend](https://www.agirlcodes.dev/build-todo-app-backend-golang-tutorial) and now we want to connect the frontend and backend to have a full-stack web application.
+golang todo backend is currently on the `main branch`.
+
 # Golang Todo App
 
 Golang Todo App is a simple todo app backend created to teach how to create CRUD REST APis with Golang and Mongo DB for database. I wrote about how to build a simple golang todo app and this is the github repository for the todo project built in the article.
