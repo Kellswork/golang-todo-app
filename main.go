@@ -61,7 +61,11 @@ type (
 func init() {
 	fmt.Println("init function running")
 
-	rnd = renderer.New()
+	rnd = renderer.New(
+		renderer.Options{
+			ParseGlobPattern: "html/*.html",
+		},
+	)
 	var err error
 
 	// create a mongo client with the Connect function:
@@ -79,8 +83,10 @@ func init() {
 }
 
 func homeHandler(rw http.ResponseWriter, r *http.Request) {
-	filePath := "./README.md"
-	err := rnd.FileView(rw, http.StatusOK, filePath, "readme.md")
+	// filePath := "./README.md"
+	// err := rnd.FileView(rw, http.StatusOK, filePath, "readme.md")
+
+	err := rnd.HTML(rw, http.StatusOK, "indexPage", nil)
 	checkError(err)
 }
 
@@ -226,6 +232,10 @@ func deleteTodo(rw http.ResponseWriter, r *http.Request) {
 func main() {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
+
+	fs := http.FileServer(http.Dir("./static"))
+	router.Handle("/static/*", http.StripPrefix("/static/", fs))
+
 	router.Get("/", homeHandler)
 	router.Mount("/todo", todoHandlers())
 
