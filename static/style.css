@@ -1,0 +1,108 @@
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #8052ec, #d161ff);
+}
+
+.container{
+ border: 2px solid white;
+ width: 40%;
+ min-width: 450px;
+ position: absolute;
+ transform: translate(-50%, -50%);
+ top: 50%;
+ left: 50%;
+ padding: 30px 40px;
+}
+
+#new-todo{
+background-color: #fff;
+padding: 30px 20px;
+border-radius: 5px;
+box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+#new-todo input{
+ width: 70%;
+ height: 45px;
+ font-family: 'Poppins', Verdana, Geneva, Tahoma, sans-serif;
+ font-size: 15px;
+ border: 2px solid #d1d3d4;
+ padding: 12px;
+ color: #100f0f;
+ position: relative;
+ font-weight: 500;
+ border-radius: 5px;
+}
+
+#new-todo input:focus {
+ outline: none;
+ border-color: #8052ec;
+}
+
+#new-todo button {
+ position: relative;
+ float: right;
+ width: 20%;
+ height: 45px;
+ border-radius: 5px;
+ font-family: 'Poppins', Verdana, Geneva, Tahoma, sans-serif;
+ font-weight: 500;
+ font-size: 16px;
+ border: none;
+ background-color: #8052ec;
+ color: #fff;
+ cursor: pointer;
+}
+
+#todos {
+ background-color: #fff;
+ padding: 30px 20px;
+ margin-top: 10px;
+ border-radius: 10px;
+ width: 100%;
+ box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+ position: relative;
+}
+
+.todo {
+ background-color: #fff;
+ height: 50px;
+ padding: 5px 10px;
+ margin-top: 10px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ border-bottom: 2px solid #d1d3d4;
+ cursor: pointer;
+}
+
+.todo span{
+ font-family: 'Poppins', Verdana, Geneva, Tahoma, sans-serif;
+ font-size: 15px;
+ font-weight: 400;
+}
+.todo .actions {
+  height: 100%;
+}
+.todo button {
+ background-color: #8052ec;
+ color: #fff;
+ height: 100%;
+ width: 40px;
+ border-radius: 5px;
+ border: none;
+ cursor: pointer;
+ outline: none;
+}
+
+.completed{
+ text-decoration: line-through;
+}
