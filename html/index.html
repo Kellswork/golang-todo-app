@@ -1,32 +1,74 @@
 {{define "indexPage"}}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>To Do App - with html, css and Javascript</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
-    />
 
-    <link rel="stylesheet" type="text/css" href="/static/style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To Do App - with html, css and Javascript</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
 
-  <body>
-    <div class="container">
-      <div id="new-todo">
-        <input type="text" placeholder="Tasks to be done" />
-        <button type="button" id="submit">Add</button>
-      </div>
-      <div id="todos"></div>
+  <link rel="stylesheet" type="text/css" href="/static/style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div id="new-todo">
+      <input type="text" placeholder="Tasks to be done" />
+      <button type="button" id="submit">Add</button>
     </div>
-  </body>
+    <div id="todos"></div>
+  </div>
+  <script>
+    const localhostAddress = "http://localhost:9000/todo";
+
+    async function getTodos() {
+      try {
+        const response = await fetch(localhostAddress);
+        const responseData = await response.json();
+        return responseData.data;
+
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    async function displayTodos() {
+      const todoList = await getTodos();
+      let todoListContainer = document.querySelector("#todos");
+
+      if (todoList.length == 0) {
+        todoListContainer.innerHTML += `
+            <div class="todo">
+                <span> You do not have any tasks </span>
+            </div>
+            `;
+      } else {
+        todoList.forEach((todo) => {
+          todoListContainer.innerHTML += `
+        <div class="todo">
+            <span>${todo.title}</span>
+
+            <div class="actions">
+                <button class="edit">
+                    <i class="fas fa-edit"></i>
+                </button>
+                 <button class="delete">
+                <i class="far fa-trash-alt"></i>
+                </button>
+            <div>
+            
+        </div>
+        `;
+        });
+      }
+    }
+    displayTodos();
+  </script>
+</body>
+
 </html>
 {{end}}
