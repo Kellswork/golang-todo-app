@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "module": "commonjs",
+    "module": "ESNext",
     "sourceMap": true,
     "strict": true,
+    "alwaysStrict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "allowUnreachableCode": false,
     "strictFunctionTypes": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "noImplicitReturns": false
   }
 }
