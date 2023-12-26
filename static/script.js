@@ -34,28 +34,75 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var localhostAddress = "http://localhost:9000/todo";
+var newTodoInput = document.querySelector("#new-todo input");
+var submitButton = document.querySelector("#submit");
 function getTodos() {
     return __awaiter(this, void 0, void 0, function () {
-        var localhostAddress, response, responseData, error_1;
+        var response, responseData, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    localhostAddress = "http://localhost:9000/todo";
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 4, , 5]);
+                    _a.trys.push([0, 3, , 4]);
                     return [4 /*yield*/, fetch(localhostAddress)];
-                case 2:
+                case 1:
                     response = _a.sent();
                     return [4 /*yield*/, response.json()];
-                case 3:
+                case 2:
                     responseData = _a.sent();
                     return [2 /*return*/, responseData.data];
-                case 4:
+                case 3:
                     error_1 = _a.sent();
                     console.error("Error:", error_1);
                     return [2 /*return*/, "could not getTodos: " + error_1];
-                case 5: return [2 /*return*/];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+function createTodo(data) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, result, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch(localhostAddress, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(data)
+                        })];
+                case 1:
+                    response = _a.sent();
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    result = _a.sent();
+                    console.log('success: ', result.message);
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_2 = _a.sent();
+                    console.error("Error:", error_2);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+function addTask() {
+    return __awaiter(this, void 0, void 0, function () {
+        var data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    data = { title: newTodoInput.value };
+                    return [4 /*yield*/, createTodo(data)];
+                case 1:
+                    _a.sent();
+                    displayTodos();
+                    newTodoInput.value = "";
+                    return [2 /*return*/];
             }
         });
     });
@@ -73,6 +120,7 @@ function displayTodos() {
                         return [2 /*return*/];
                     }
                     todoListContainer = document.querySelector("#todos");
+                    todoListContainer.innerHTML = "";
                     if (todoList.length == 0) {
                         todoListContainer.innerHTML += "\n            <div class=\"todo\">\n                <span> You do not have any tasks </span>\n            </div>\n            ";
                     }
@@ -87,3 +135,4 @@ function displayTodos() {
     });
 }
 displayTodos();
+submitButton.addEventListener("click", function () { return addTask(); });
