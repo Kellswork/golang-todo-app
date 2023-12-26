@@ -24,6 +24,8 @@
   </div>
   <script>
     const localhostAddress = "http://localhost:9000/todo";
+    const newTodoInput = document.querySelector("#new-todo input");
+    let submitButton = document.querySelector("#submit");
 
     async function getTodos() {
       try {
@@ -36,9 +38,36 @@
       }
     }
 
+    async function createTodo(data) {
+      try {
+        // send POST request with user input as the req body
+        const response = await fetch(localhostAddress, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        console.log("Success:", result.message);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    async function addTask() {
+      const data = { title: newTodoInput.value };
+      await createTodo(data);
+      displayTodos();
+      newTodoInput.value = "";
+    }
+
     async function displayTodos() {
       const todoList = await getTodos();
       let todoListContainer = document.querySelector("#todos");
+      todoListContainer.innerHTML = "";
+
 
       if (todoList.length == 0) {
         todoListContainer.innerHTML += `
@@ -67,6 +96,9 @@
       }
     }
     displayTodos();
+
+    submitButton.addEventListener("click", () => addTask());
+
   </script>
 </body>
 
