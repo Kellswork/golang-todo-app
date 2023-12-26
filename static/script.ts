@@ -1,4 +1,3 @@
-
 interface Todo {
   id: string;
   title: string;
@@ -17,7 +16,9 @@ interface CreateTodoResponse {
 }
 
 const localhostAddress = "http://localhost:9000/todo";
-const newTodoInput = document.querySelector("#new-todo input") as HTMLInputElement;
+const newTodoInput = document.querySelector(
+  "#new-todo input"
+) as HTMLInputElement;
 let submitButton = document.querySelector("#submit") as HTMLButtonElement;
 
 async function getTodos() {
@@ -31,7 +32,7 @@ async function getTodos() {
   }
 }
 
-async function createTodo(data: {title: string}) {
+async function createTodo(data: { title: string }) {
   try {
     // send POST request with user input as the req body
     const response = await fetch(localhostAddress, {
@@ -42,9 +43,20 @@ async function createTodo(data: {title: string}) {
       body: JSON.stringify(data),
     });
 
-    const result:CreateTodoResponse = await response.json();
-    console.log('success: ', result.message)
+    const result: CreateTodoResponse = await response.json();
+    console.log("success: ", result.message);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
 
+async function deleteTodo(TodoID: string) {
+  try {
+    const response = await fetch(`${localhostAddress}/${TodoID}`, {
+      method: "DELETE",
+    });
+    const result = await response.json();
+    console.log("Success:", result.message);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -57,7 +69,6 @@ async function addTask() {
 
   newTodoInput.value = "";
 }
-
 
 async function displayTodos() {
   const todoList = await getTodos();
@@ -86,7 +97,7 @@ async function displayTodos() {
                 <button class="edit">
                     <i class="fas fa-edit"></i>
                 </button>
-                 <button class="delete">
+                <button data-id=${todo.id} class="delete">
                 <i class="far fa-trash-alt"></i>
                 </button>
             <div>
@@ -94,8 +105,24 @@ async function displayTodos() {
         </div>
         `;
     });
-  } 
+    deleteTaskButton();
+  }
 }
 displayTodos();
+
+function deleteTaskButton() {
+  const deleteTodoButtons: HTMLButtonElement[] = Array.from(
+    document.querySelectorAll(".delete")
+  );
+  
+
+  for (const deleteButton of deleteTodoButtons) {
+    deleteButton.onclick = async function () {
+      const todoID = deleteButton.getAttribute("data-id") || "";
+      await deleteTodo(todoID);
+      displayTodos();
+    };
+  }
+}
 
 submitButton.addEventListener("click", () => addTask());

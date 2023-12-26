@@ -79,11 +79,37 @@ function createTodo(data) {
                     return [4 /*yield*/, response.json()];
                 case 2:
                     result = _a.sent();
-                    console.log('success: ', result.message);
+                    console.log("success: ", result.message);
                     return [3 /*break*/, 4];
                 case 3:
                     error_2 = _a.sent();
                     console.error("Error:", error_2);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+function deleteTodo(TodoID) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, result, error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch(localhostAddress + "/" + TodoID, {
+                            method: "DELETE"
+                        })];
+                case 1:
+                    response = _a.sent();
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    result = _a.sent();
+                    console.log("Success:", result.message);
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_3 = _a.sent();
+                    console.error("Error:", error_3);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
@@ -126,8 +152,9 @@ function displayTodos() {
                     }
                     else {
                         todoList.forEach(function (todo) {
-                            todoListContainer.innerHTML += "\n        <div class=\"todo\">\n            <span>" + todo.title + "</span>\n\n            <div class=\"actions\">\n                <button class=\"edit\">\n                    <i class=\"fas fa-edit\"></i>\n                </button>\n                 <button class=\"delete\">\n                <i class=\"far fa-trash-alt\"></i>\n                </button>\n            <div>\n            \n        </div>\n        ";
+                            todoListContainer.innerHTML += "\n        <div class=\"todo\">\n            <span>" + todo.title + "</span>\n\n            <div class=\"actions\">\n                <button class=\"edit\">\n                    <i class=\"fas fa-edit\"></i>\n                </button>\n                <button data-id=" + todo.id + " class=\"delete\">\n                <i class=\"far fa-trash-alt\"></i>\n                </button>\n            <div>\n            \n        </div>\n        ";
                         });
+                        deleteTaskButton();
                     }
                     return [2 /*return*/];
             }
@@ -135,4 +162,29 @@ function displayTodos() {
     });
 }
 displayTodos();
+function deleteTaskButton() {
+    var deleteTodoButtons = Array.from(document.querySelectorAll(".delete"));
+    var _loop_1 = function (deleteButton) {
+        deleteButton.onclick = function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var todoID;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            todoID = deleteButton.getAttribute("data-id") || "";
+                            return [4 /*yield*/, deleteTodo(todoID)];
+                        case 1:
+                            _a.sent();
+                            displayTodos();
+                            return [2 /*return*/];
+                    }
+                });
+            });
+        };
+    };
+    for (var _i = 0, deleteTodoButtons_1 = deleteTodoButtons; _i < deleteTodoButtons_1.length; _i++) {
+        var deleteButton = deleteTodoButtons_1[_i];
+        _loop_1(deleteButton);
+    }
+}
 submitButton.addEventListener("click", function () { return addTask(); });
