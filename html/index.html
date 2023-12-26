@@ -56,6 +56,19 @@
       }
     }
 
+    async function deleteTodo(TodoID) {
+      try {
+        const response = await fetch(`${localhostAddress}/${TodoID}`, {
+          method: "DELETE",
+        });
+        const result = await response.json();
+        console.log("Success:", result.message);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+
     async function addTask() {
       const data = { title: newTodoInput.value };
       await createTodo(data);
@@ -85,7 +98,7 @@
                 <button class="edit">
                     <i class="fas fa-edit"></i>
                 </button>
-                 <button class="delete">
+                <button data-id=${todo.id} class="delete">
                 <i class="far fa-trash-alt"></i>
                 </button>
             <div>
@@ -94,8 +107,22 @@
         `;
         });
       }
+      deleteTaskButton();
     }
     displayTodos();
+
+    function deleteTaskButton() {
+      const deleteTodoButtons = document.querySelectorAll(".delete");
+
+      for (const deleteButton of deleteTodoButtons) {
+
+        deleteButton.onclick = async function () {
+          const todoID = deleteButton.getAttribute("data-id");
+          await deleteTodo(todoID);
+          displayTodos();
+        };
+      }
+    }
 
     submitButton.addEventListener("click", () => addTask());
 
