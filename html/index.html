@@ -23,9 +23,13 @@
     <div id="todos"></div>
   </div>
   <script>
+
     const localhostAddress = "http://localhost:9000/todo";
     const newTodoInput = document.querySelector("#new-todo input");
-    let submitButton = document.querySelector("#submit");
+    const submitButton = document.querySelector("#submit");
+    let isEditingTask = false;
+    let editButtonTodoID = '';
+
 
     async function getTodos() {
       try {
@@ -68,12 +72,38 @@
       }
     }
 
+    async function updateTodo(id, data) {
+      try {
+        const response = await fetch(`${localhostAddress}/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        console.log("Success:", result);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
 
     async function addTask() {
       const data = { title: newTodoInput.value };
       await createTodo(data);
       displayTodos();
       newTodoInput.value = "";
+    }
+
+
+    async function editTask() {
+      const data = { title: newTodoInput.value, completed: false };
+      if (isEditingTask) await updateTodo(editButtonTodoID, data);
+      displayTodos();
+
+      newTodoInput.value = "";
+      isEditingTask = false;
+      submitButton.innerHTML = "Add";
     }
 
     async function displayTodos() {
@@ -95,7 +125,7 @@
             <span>${todo.title}</span>
 
             <div class="actions">
-                <button class="edit">
+                <button data-id=${todo.id} class="edit">
                     <i class="fas fa-edit"></i>
                 </button>
                 <button data-id=${todo.id} class="delete">
@@ -108,6 +138,7 @@
         });
       }
       deleteTaskButton();
+      editTaskTitleButton();
     }
     displayTodos();
 
@@ -124,8 +155,23 @@
       }
     }
 
-    submitButton.addEventListener("click", () => addTask());
+    function editTaskTitleButton() {
+      const editTodoTitleButtons = document.querySelectorAll(".edit");
 
+      for (const editButton of editTodoTitleButtons) {
+        const todoName = editButton.parentNode.parentNode.children[0];
+
+        editButton.onclick = async function () {
+          newTodoInput.value = todoName.innerText;
+          submitButton.innerHTML = "Edit";
+          isEditingTask = true;
+
+          editButtonTodoID = editButton.getAttribute("data-id");
+        };
+      }
+    }
+
+    submitButton.addEventListener('click', () => isEditingTask ? editTask() : addTask())
   </script>
 </body>
 
