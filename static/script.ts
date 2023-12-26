@@ -91,6 +91,16 @@ async function addTask() {
   newTodoInput.value = "";
 }
 
+async function editTask() {
+  const data = { title: newTodoInput.value, completed: false };
+  if (isEditingTask) await updateTodo(editButtonTodoID, data);
+  displayTodos();
+
+  newTodoInput.value = "";
+  isEditingTask = false;
+  submitButton.innerHTML = "Add";
+}
+
 async function displayTodos() {
   const todoList = await getTodos();
 
@@ -147,20 +157,22 @@ function deleteTaskButton() {
 }
 
 function editTaskTitleButton() {
-  const editTodoTitleButtons = document.querySelectorAll(".edit");
+  const editTodoTitleButtons: HTMLButtonElement[] = Array.from(
+    document.querySelectorAll(".edit")
+  );
 
   for (const editButton of editTodoTitleButtons) {
-    const todoName = editButton.parentNode.parentNode.children[0];
+    const todoName = editButton.parentNode?.parentNode?.children[0] as HTMLSpanElement;
 
     editButton.onclick = async function () {
       newTodoInput.value = todoName.innerText;
       submitButton.innerHTML = "Edit";
       isEditingTask = true;
 
-      editButtonTodoID = editButton.getAttribute("data-id");
+      editButtonTodoID = editButton.getAttribute("data-id") ?? '';
     };
   }
 }
 
 
-submitButton.addEventListener("click", () => addTask());
+submitButton.addEventListener('click', () => isEditingTask ? editTask() : addTask())

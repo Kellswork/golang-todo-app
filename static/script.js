@@ -37,6 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var localhostAddress = "http://localhost:9000/todo";
 var newTodoInput = document.querySelector("#new-todo input");
 var submitButton = document.querySelector("#submit");
+var isEditingTask = false;
+var editButtonTodoID = "";
 function getTodos() {
     return __awaiter(this, void 0, void 0, function () {
         var response, responseData, error_1;
@@ -116,6 +118,36 @@ function deleteTodo(TodoID) {
         });
     });
 }
+function updateTodo(id, data) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, result, error_4;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch(localhostAddress + "/" + id, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(data)
+                        })];
+                case 1:
+                    response = _a.sent();
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    result = _a.sent();
+                    console.log("Success:", result);
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_4 = _a.sent();
+                    console.error("Error:", error_4);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
 function addTask() {
     return __awaiter(this, void 0, void 0, function () {
         var data;
@@ -128,6 +160,28 @@ function addTask() {
                     _a.sent();
                     displayTodos();
                     newTodoInput.value = "";
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function editTask() {
+    return __awaiter(this, void 0, void 0, function () {
+        var data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    data = { title: newTodoInput.value, completed: false };
+                    if (!isEditingTask) return [3 /*break*/, 2];
+                    return [4 /*yield*/, updateTodo(editButtonTodoID, data)];
+                case 1:
+                    _a.sent();
+                    _a.label = 2;
+                case 2:
+                    displayTodos();
+                    newTodoInput.value = "";
+                    isEditingTask = false;
+                    submitButton.innerHTML = "Add";
                     return [2 /*return*/];
             }
         });
@@ -152,9 +206,10 @@ function displayTodos() {
                     }
                     else {
                         todoList.forEach(function (todo) {
-                            todoListContainer.innerHTML += "\n        <div class=\"todo\">\n            <span>" + todo.title + "</span>\n\n            <div class=\"actions\">\n                <button class=\"edit\">\n                    <i class=\"fas fa-edit\"></i>\n                </button>\n                <button data-id=" + todo.id + " class=\"delete\">\n                <i class=\"far fa-trash-alt\"></i>\n                </button>\n            <div>\n            \n        </div>\n        ";
+                            todoListContainer.innerHTML += "\n        <div class=\"todo\">\n            <span>" + todo.title + "</span>\n\n            <div class=\"actions\">\n                <button data-id=" + todo.id + " class=\"edit\">\n                    <i class=\"fas fa-edit\"></i>\n                </button>\n                <button data-id=" + todo.id + " class=\"delete\">\n                <i class=\"far fa-trash-alt\"></i>\n                </button>\n            <div>\n            \n        </div>\n        ";
                         });
                         deleteTaskButton();
+                        editTaskTitleButton();
                     }
                     return [2 /*return*/];
             }
@@ -187,4 +242,27 @@ function deleteTaskButton() {
         _loop_1(deleteButton);
     }
 }
-submitButton.addEventListener("click", function () { return addTask(); });
+function editTaskTitleButton() {
+    var _a, _b;
+    var editTodoTitleButtons = Array.from(document.querySelectorAll(".edit"));
+    var _loop_2 = function (editButton) {
+        var todoName = (_b = (_a = editButton.parentNode) === null || _a === void 0 ? void 0 : _a.parentNode) === null || _b === void 0 ? void 0 : _b.children[0];
+        editButton.onclick = function () {
+            var _a;
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_b) {
+                    newTodoInput.value = todoName.innerText;
+                    submitButton.innerHTML = "Edit";
+                    isEditingTask = true;
+                    editButtonTodoID = (_a = editButton.getAttribute("data-id")) !== null && _a !== void 0 ? _a : '';
+                    return [2 /*return*/];
+                });
+            });
+        };
+    };
+    for (var _i = 0, editTodoTitleButtons_1 = editTodoTitleButtons; _i < editTodoTitleButtons_1.length; _i++) {
+        var editButton = editTodoTitleButtons_1[_i];
+        _loop_2(editButton);
+    }
+}
+submitButton.addEventListener('click', function () { return isEditingTask ? editTask() : addTask(); });
