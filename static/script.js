@@ -206,7 +206,7 @@ function displayTodos() {
                     }
                     else {
                         todoList.forEach(function (todo) {
-                            todoListContainer.innerHTML += "\n        <div class=\"todo\">\n            <span>" + todo.title + "</span>\n\n            <div class=\"actions\">\n                <button data-id=" + todo.id + " class=\"edit\">\n                    <i class=\"fas fa-edit\"></i>\n                </button>\n                <button data-id=" + todo.id + " class=\"delete\">\n                <i class=\"far fa-trash-alt\"></i>\n                </button>\n            <div>\n            \n        </div>\n        ";
+                            todoListContainer.innerHTML += "\n        <div class=\"todo\">\n          <span\n            id=\"todoname\"\n            style=\"text-decoration:" + (todo.completed ? 'line-through' : '') + "\"\n            data-iscomplete=\"" + todo.completed + "\"\n            data-id=\"" + todo.id + "\"\n          >\n            " + todo.title + "\n            </span>\n\n            <div class=\"actions\">\n                <button data-id=" + todo.id + " class=\"edit\">\n                    <i class=\"fas fa-edit\"></i>\n                </button>\n                <button data-id=" + todo.id + " class=\"delete\">\n                <i class=\"far fa-trash-alt\"></i>\n                </button>\n            <div>\n            \n        </div>\n        ";
                         });
                         deleteTaskButton();
                         editTaskTitleButton();
@@ -267,16 +267,32 @@ function editTaskTitleButton() {
     }
 }
 function toggleTaskCompletion() {
-    var editTaskCompleted = document.querySelectorAll("#todoname");
+    var editTaskCompleted = Array.from(document.querySelectorAll("#todoname"));
     console.log(editTaskCompleted);
-    // for (const task of editTaskCompleted) {
-    //   task.onclick = async function () {
-    //     const isTaskDone = JSON.parse(task.getAttribute("data-iscomplete"));
-    //     const todoID = task.getAttribute("data-id");
-    //     const data = { title: task.innerText, completed: !isTaskDone };
-    //     await updateTodo(todoID, data);
-    //     displayTodos();
-    //   };
-    // }
+    var _loop_3 = function (task) {
+        task.onclick = function () {
+            var _a;
+            return __awaiter(this, void 0, void 0, function () {
+                var isTaskDone, todoID, data;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            isTaskDone = JSON.parse(task.getAttribute("data-iscomplete"));
+                            todoID = (_a = task.getAttribute("data-id")) !== null && _a !== void 0 ? _a : '';
+                            data = { title: task.innerText, completed: !isTaskDone };
+                            return [4 /*yield*/, updateTodo(todoID, data)];
+                        case 1:
+                            _b.sent();
+                            displayTodos();
+                            return [2 /*return*/];
+                    }
+                });
+            });
+        };
+    };
+    for (var _i = 0, editTaskCompleted_1 = editTaskCompleted; _i < editTaskCompleted_1.length; _i++) {
+        var task = editTaskCompleted_1[_i];
+        _loop_3(task);
+    }
 }
 submitButton.addEventListener('click', function () { return isEditingTask ? editTask() : addTask(); });

@@ -1,7 +1,7 @@
 interface Todo {
   id: string;
   title: string;
-  completedAt: boolean;
+  completed: boolean;
   createdAt: number;
 }
 
@@ -122,7 +122,14 @@ async function displayTodos() {
     todoList.forEach((todo) => {
       todoListContainer.innerHTML += `
         <div class="todo">
-            <span>${todo.title}</span>
+          <span
+            id="todoname"
+            style="text-decoration:${todo.completed ? 'line-through' : ''}"
+            data-iscomplete="${todo.completed}"
+            data-id="${todo.id}"
+          >
+            ${todo.title}
+            </span>
 
             <div class="actions">
                 <button data-id=${todo.id} class="edit">
@@ -176,19 +183,20 @@ function editTaskTitleButton() {
 }
 
 function toggleTaskCompletion() {
-  const editTaskCompleted = document.querySelectorAll("#todoname");
-  console.log(editTaskCompleted)
+  const editTaskCompleted: HTMLSpanElement[] = Array.from(
+    document.querySelectorAll("#todoname")
+  );
 
-  // for (const task of editTaskCompleted) {
-  //   task.onclick = async function () {
-  //     const isTaskDone = JSON.parse(task.getAttribute("data-iscomplete"));
-  //     const todoID = task.getAttribute("data-id");
+  for (const task of editTaskCompleted) {
+    task.onclick = async function () {
+      const isTaskDone = JSON.parse(task.getAttribute("data-iscomplete") as string);
+      const todoID = task.getAttribute("data-id") ?? '';
 
-  //     const data = { title: task.innerText, completed: !isTaskDone };
-  //     await updateTodo(todoID, data);
-  //     displayTodos();
-  //   };
-  // }
+      const data = { title: task.innerText, completed: !isTaskDone };
+      await updateTodo(todoID, data);
+      displayTodos();
+    };
+  }
 }
 
 
