@@ -39,6 +39,7 @@ var newTodoInput = document.querySelector("#new-todo input");
 var submitButton = document.querySelector("#submit");
 var isEditingTask = false;
 var editButtonTodoID = "";
+var isComplete = false;
 function getTodos() {
     return __awaiter(this, void 0, void 0, function () {
         var response, responseData, error_1;
@@ -171,7 +172,7 @@ function editTask() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    data = { title: newTodoInput.value, completed: false };
+                    data = { title: newTodoInput.value, completed: isComplete };
                     if (!isEditingTask) return [3 /*break*/, 2];
                     return [4 /*yield*/, updateTodo(editButtonTodoID, data)];
                 case 1:
@@ -206,7 +207,7 @@ function displayTodos() {
                     }
                     else {
                         todoList.forEach(function (todo) {
-                            todoListContainer.innerHTML += "\n        <div class=\"todo\">\n          <span\n            id=\"todoname\"\n            style=\"text-decoration:" + (todo.completed ? 'line-through' : '') + "\"\n            data-iscomplete=\"" + todo.completed + "\"\n            data-id=\"" + todo.id + "\"\n          >\n            " + todo.title + "\n            </span>\n\n            <div class=\"actions\">\n                <button data-id=" + todo.id + " class=\"edit\">\n                    <i class=\"fas fa-edit\"></i>\n                </button>\n                <button data-id=" + todo.id + " class=\"delete\">\n                <i class=\"far fa-trash-alt\"></i>\n                </button>\n            <div>\n            \n        </div>\n        ";
+                            todoListContainer.innerHTML += "\n        <div class=\"todo\">\n          <span\n            id=\"todoname\"\n            style=\"text-decoration:" + (todo.completed ? "line-through" : "") + "\"\n            data-iscomplete=\"" + todo.completed + "\"\n            data-id=\"" + todo.id + "\"\n          >\n            " + todo.title + "\n            </span>\n\n            <div class=\"actions\">\n                <button data-id=" + todo.id + " class=\"edit\">\n                    <i class=\"fas fa-edit\"></i>\n                </button>\n                <button data-id=" + todo.id + " class=\"delete\">\n                <i class=\"far fa-trash-alt\"></i>\n                </button>\n            <div>\n            \n        </div>\n        ";
                         });
                         deleteTaskButton();
                         editTaskTitleButton();
@@ -255,7 +256,8 @@ function editTaskTitleButton() {
                     newTodoInput.value = todoName.innerText;
                     submitButton.innerHTML = "Edit";
                     isEditingTask = true;
-                    editButtonTodoID = (_a = editButton.getAttribute("data-id")) !== null && _a !== void 0 ? _a : '';
+                    editButtonTodoID = (_a = editButton.getAttribute("data-id")) !== null && _a !== void 0 ? _a : "";
+                    isComplete = JSON.parse(todoName.getAttribute("data-iscomplete"));
                     return [2 /*return*/];
                 });
             });
@@ -268,7 +270,6 @@ function editTaskTitleButton() {
 }
 function toggleTaskCompletion() {
     var editTaskCompleted = Array.from(document.querySelectorAll("#todoname"));
-    console.log(editTaskCompleted);
     var _loop_3 = function (task) {
         task.onclick = function () {
             var _a;
@@ -278,7 +279,7 @@ function toggleTaskCompletion() {
                     switch (_b.label) {
                         case 0:
                             isTaskDone = JSON.parse(task.getAttribute("data-iscomplete"));
-                            todoID = (_a = task.getAttribute("data-id")) !== null && _a !== void 0 ? _a : '';
+                            todoID = (_a = task.getAttribute("data-id")) !== null && _a !== void 0 ? _a : "";
                             data = { title: task.innerText, completed: !isTaskDone };
                             return [4 /*yield*/, updateTodo(todoID, data)];
                         case 1:
@@ -295,4 +296,6 @@ function toggleTaskCompletion() {
         _loop_3(task);
     }
 }
-submitButton.addEventListener('click', function () { return isEditingTask ? editTask() : addTask(); });
+submitButton.addEventListener("click", function () {
+    return isEditingTask ? editTask() : addTask();
+});
