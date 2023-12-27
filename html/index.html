@@ -29,6 +29,7 @@
     const submitButton = document.querySelector("#submit");
     let isEditingTask = false;
     let editButtonTodoID = '';
+    let isComplete = false;
 
 
     async function getTodos() {
@@ -97,7 +98,8 @@
 
 
     async function editTask() {
-      const data = { title: newTodoInput.value, completed: false };
+      const data = { title: newTodoInput.value, completed: isComplete };
+      
       if (isEditingTask) await updateTodo(editButtonTodoID, data);
       displayTodos();
 
@@ -174,6 +176,8 @@
           isEditingTask = true;
 
           editButtonTodoID = editButton.getAttribute("data-id");
+          isComplete = JSON.parse(todoName.getAttribute("data-iscomplete"));
+
         };
       }
     }
