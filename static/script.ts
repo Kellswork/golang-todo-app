@@ -138,6 +138,7 @@ async function displayTodos() {
     });
     deleteTaskButton();
     editTaskTitleButton();
+    toggleTaskCompletion();
   }
 }
 displayTodos();
@@ -172,6 +173,22 @@ function editTaskTitleButton() {
       editButtonTodoID = editButton.getAttribute("data-id") ?? '';
     };
   }
+}
+
+function toggleTaskCompletion() {
+  const editTaskCompleted = document.querySelectorAll("#todoname");
+  console.log(editTaskCompleted)
+
+  // for (const task of editTaskCompleted) {
+  //   task.onclick = async function () {
+  //     const isTaskDone = JSON.parse(task.getAttribute("data-iscomplete"));
+  //     const todoID = task.getAttribute("data-id");
+
+  //     const data = { title: task.innerText, completed: !isTaskDone };
+  //     await updateTodo(todoID, data);
+  //     displayTodos();
+  //   };
+  // }
 }
 
 

@@ -210,6 +210,7 @@ function displayTodos() {
                         });
                         deleteTaskButton();
                         editTaskTitleButton();
+                        toggleTaskCompletion();
                     }
                     return [2 /*return*/];
             }
@@ -264,5 +265,18 @@ function editTaskTitleButton() {
         var editButton = editTodoTitleButtons_1[_i];
         _loop_2(editButton);
     }
+}
+function toggleTaskCompletion() {
+    var editTaskCompleted = document.querySelectorAll("#todoname");
+    console.log(editTaskCompleted);
+    // for (const task of editTaskCompleted) {
+    //   task.onclick = async function () {
+    //     const isTaskDone = JSON.parse(task.getAttribute("data-iscomplete"));
+    //     const todoID = task.getAttribute("data-id");
+    //     const data = { title: task.innerText, completed: !isTaskDone };
+    //     await updateTodo(todoID, data);
+    //     displayTodos();
+    //   };
+    // }
 }
 submitButton.addEventListener('click', function () { return isEditingTask ? editTask() : addTask(); });
