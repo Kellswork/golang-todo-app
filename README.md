@@ -3,7 +3,7 @@
 This branch is the tutorial 'Build a CRUD Todo App with Vanilla JavaScript and Fetch API'.
 
 
-Previously, we built the [ Golang Todo App Backend](https://www.agirlcodes.dev/build-todo-app-backend-golang-tutorial), [connected the frontend to the backend](https://www.agirlcodes.dev/golang-setup-html-templates-and-static-assets). We want to develop the frontend part of the todo app and consume the backend API endpoints.
+Previously, we built the [ Golang Todo App Backend](https://www.agirlcodes.dev/build-todo-app-backend-golang-tutorial) and [connected the frontend to the backend](https://www.agirlcodes.dev/golang-setup-html-templates-and-static-assets). We want to develop the frontend part of the todo app and consume the backend API endpoints.
 
 The tutorial covers these features;
 
