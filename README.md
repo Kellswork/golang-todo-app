@@ -1,42 +1,33 @@
-## TypeScript Configuration and Setup
+## Frontend Todo App: Built with TypeScript and Fetch API
 
-This branch is for the code used in the article "Golang Todo App: HTML Templates and Static Assets" and explains how to set up TypeScript to replace vanilla JavaScript when building the front end of the todo app. 
-
-This branch is a follow-up to the ["SETUP HTML TEMPLATES AND ASSETS FIle"](https://github.com/Kellswork/golang-todo-app/tree/feat/setup-html-template-and-asset-files) and handles the TypeScript configuration and setup. The article provides a step-by-step guide to help you set up TypeScript for the todo app.
-
-Previously, we built the [ Golang Todo App Backend](https://www.agirlcodes.dev/build-todo-app-backend-golang-tutorial) and now we want to connect the frontend and backend to have a full-stack web application.
-golang todo backend is currently on the `main branch`.
-
-# Golang Todo App
-
-Golang Todo App is a simple todo app backend created to teach how to create CRUD REST APis with Golang and Mongo DB for database. I wrote about how to build a simple golang todo app and this is the github repository for the todo project built in the article.
-
-If you are new to programming or a Dev who desires to learn Golang, this is a way you can slowly introduce yourself to the language and understand the basics and how building APIs work in Go.
-
-### Features
-
-- User can create a todo
-- User can delete a todo
-- User can update a todo
-- User can get all Todos stored in the databse.
+This branch is the tutorial 'Build a CRUD Todo App with TypeScript and Fetch API'.
 
 
-### Installation neede
-- Go
-- Docker
+Previously, we built the [ Golang Todo App Backend](https://www.agirlcodes.dev/build-todo-app-backend-golang-tutorial) and [connected the frontend to the backend](https://www.agirlcodes.dev/golang-setup-html-templates-and-static-assets). We want to develop the frontend part of the todo app and consume the backend API endpoints.
+
+The tutorial covers these features;
+
+- creating a Todo,
+- reading a list of Todo items,
+- editing a Todo item from the list of displayed items,
+- deleting an item from the list,
+- and marking a Todo item as completed or not.
+
+
+Technology used
+- TypeScript
+- Fetch-API
+- Golang sever
 
 ## Getting Started
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+You can copy the HTML, CSS and JavaScript content and host the files as you please. It will work on the browser.
 
-Install Golang
+I used a Golang server to host the front end. You can find the article for building the Github Repo [here](https://github.com/Kellswork/golang-todo-app) and hosting the frontend assets on the backend server with typescript config [here](https://github.com/Kellswork/golang-todo-app/tree/feat/add-typescript-configuration).
 
-Clone the repository https://github.com/Kellswork/golang-todo-app
-
-Navigate to the location of the folder
-
-Run go get
-
-Run `go run main.go`  to get the app server running on your local machine
+or
+ - You can clone this branch.
+ - start the go server with `go run main.go`. 
+ - navigate to `localhost:9000`.
 
 
 ## Author
